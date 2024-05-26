@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import sys
 import os
 
@@ -9,6 +10,7 @@ sys.path.insert(0, parent_dir)
 from services.service import add_information, get_all_information, get_information, get_last_update
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/post_package', methods=['POST'])
 def add_information_route():
@@ -17,7 +19,7 @@ def add_information_route():
 
         if not data:
             return jsonify({'message': 'Data is required'}), 400
-
+        
         block = add_information(
             data['trackingCode'], data['orderDate'], data['orderStatus'], 
             data['deliveryAddress'], data['deliveryEstimation'], 
@@ -25,7 +27,7 @@ def add_information_route():
             data['lastUpdate']
         )
         
-        return jsonify({'message': 'Inoformation added succesfully', 'block': block.__dict__}), 201
+        return jsonify({'message': 'Information added succesfully', 'block': block.__dict__}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     

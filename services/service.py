@@ -4,7 +4,7 @@ import datetime
 blockchain = Blockchain(difficulty=3)
 
 def add_information(tracking_code, order_date, order_status, delivery_address, delivery_estimation, product_name, quantity, total_price, last_update):
-
+    
     data = {
         'trackingCode': tracking_code,
         'orderDate': order_date,
@@ -16,6 +16,7 @@ def add_information(tracking_code, order_date, order_status, delivery_address, d
         'totalPrice': total_price,
         'lastUpdate': last_update
     }
+
     new_block = blockchain.new_block(data)
     blockchain.add_block(new_block)
     return blockchain.latest_block()
