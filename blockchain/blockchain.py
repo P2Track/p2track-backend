@@ -78,6 +78,9 @@ class Blockchain:
     
     def get_all_data(self):
         return [block.data for block in self.chain]
+    
+    def get_block_by_code(self, tracking_code):
+        return [block for block in self.chain if block.data['trackingCode'] == tracking_code]
 
     def __str__(self):
         return '\n'.join(str(block) for block in self.chain)
