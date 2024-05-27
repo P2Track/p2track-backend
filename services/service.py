@@ -1,5 +1,4 @@
 from blockchain.blockchain import Blockchain
-import datetime
 
 blockchain = Blockchain(difficulty=3)
 
@@ -40,7 +39,20 @@ def get_last_update(tracking_code):
     
     for block in blocks:
         if block[1]["trackingCode"] == tracking_code:
-                print("ACHEI")
+            print("ACHEI")
     
     latest_block = max(blocks, key=lambda block: block.data['lastUpdate'])
     return latest_block.data
+
+def get_orders_by_id(tracking_code):
+    all_data = blockchain.get_all_data()
+    all_by_tracking_code = []
+    for e in all_data[1:]:
+        if e['trackingCode'] == tracking_code:
+            all_by_tracking_code.append(e)
+
+    return all_by_tracking_code
+
+def get_last_order_by_id(tracking_code):
+    orders_id = get_orders_by_id(tracking_code)
+    return orders_id[len(orders_id) - 1]

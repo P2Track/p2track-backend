@@ -7,7 +7,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
 sys.path.insert(0, parent_dir)
 
-from services.service import add_information, get_all_information, get_information, get_last_update
+from services.service import add_information, get_all_information, get_last_order_by_id, get_orders_by_id
 
 app = Flask(__name__)
 CORS(app)
@@ -31,10 +31,10 @@ def add_information_route():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
-@app.route("/get_package/<int:tracking_code>", methods=['GET'])
-def get_information_route(tracking_code):
+@app.route("/get_package/<string:tracking_code>/updated", methods=['GET'])
+def get_updated_by_id(tracking_code):
     try:
-        data = get_last_update(tracking_code)
+        data = get_last_order_by_id(tracking_code)
         return jsonify({'data': data}), 200
     except ValueError as e:
         return jsonify({'message': str(e)}), 404
@@ -48,3 +48,15 @@ def get_all_information_route():
         return jsonify({'data': all_data}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/get_all_packages/<string:tracking_code>', methods=['GET'])
+def get_all_by_id(tracking_code):
+    print(tracking_code)
+    try:
+        data = get_orders_by_id(tracking_code)
+        return jsonify({'data': data}), 200
+    except ValueError as e:
+        return jsonify({'message': str(e)}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
