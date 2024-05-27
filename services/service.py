@@ -3,6 +3,9 @@ from blockchain.blockchain import Blockchain
 blockchain = Blockchain(difficulty=3)
 
 def add_information(tracking_code, order_date, order_status, delivery_address, delivery_estimation, product_name, quantity, total_price, last_update):
+
+    if not(blockchain.is_blockchain_valid):
+        return False
     
     data = {
         'trackingCode': tracking_code,
@@ -18,6 +21,7 @@ def add_information(tracking_code, order_date, order_status, delivery_address, d
 
     new_block = blockchain.new_block(data)
     blockchain.add_block(new_block)
+
     return blockchain.latest_block()
 
 def get_information(index):
